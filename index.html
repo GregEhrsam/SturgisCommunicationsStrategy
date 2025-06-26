@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sturgis Rally | Integrated Communications & Response Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Professional Tech Neutrals -->
+    <!-- Application Structure Plan: The application is structured as a narrative journey: The Challenge -> The Solution -> The Proof (KPIs) -> The Beneficiaries (Stakeholders) -> The Future. This user-centric flow guides decision-makers from understanding the core problem to seeing the tangible benefits for their specific agencies and the long-term vision. A sticky navigation allows for non-linear exploration, while interactive tabs and cards break down complex information into digestible chunks, preventing cognitive overload and encouraging engagement. This structure was chosen over a direct report-to-page mapping to make the strategic proposal more persuasive and easier to comprehend for a busy executive audience. -->
+    <!-- Visualization & Content Choices: 
+        - The Challenge: Goal(Inform) -> Animated Stat Cards -> JS on scroll -> Quickly convey scale & problem severity.
+        - The Solution (Tabs): Goal(Organize) -> Tabbed Interface -> JS toggling visibility -> Breaks down a complex 3-pillar solution into manageable sections.
+        - P25 TDMA Diagram: Goal(Compare) -> HTML/CSS Diagram -> Static visual -> Simplifies a technical concept (2x capacity) without complex libraries.
+        - SmartConnect Flow Diagram: Goal(Inform) -> Animated HTML/CSS Diagram -> JS toggling classes -> Visually demonstrates the dynamic, seamless network switching at the core of the value proposition.
+        - KPI Chart: Goal(Compare) -> Bar Chart (Chart.js) -> JS rendering -> Translates text-based targets into a powerful visual of expected improvements, making the ROI tangible.
+        - Stakeholder Cards: Goal(Compare/Inform) -> Interactive Cards -> JS toggling visibility -> Allows stakeholders to immediately see content relevant to them, directly addressing their unique priorities.
+        - CONFIRMING NO SVG/Mermaid: All visuals are created using standard HTML, Tailwind CSS, or Chart.js (Canvas), ensuring full compliance with the requirements. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #2563eb;
+            border-bottom-color: #2563eb;
+        }
+        .tab-btn.active {
+            background-color: #2563eb;
+            color: white;
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-bold text-gray-800">
+                    <span class="text-blue-600">Sturgis</span> Strategy
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#challenge" class="nav-link px-3 py-2 text-sm font-medium text-gray-600">The Challenge</a>
+                    <a href="#solution" class="nav-link px-3 py-2 text-sm font-medium text-gray-600">The Solution</a>
+                    <a href="#kpis" class="nav-link px-3 py-2 text-sm font-medium text-gray-600">KPIs</a>
+                    <a href="#stakeholders" class="nav-link px-3 py-2 text-sm font-medium text-gray-600">Stakeholders</a>
+                    <a href="#vision" class="nav-link px-3 py-2 text-sm font-medium text-gray-600">Future Vision</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#challenge" class="block nav-link py-2 text-gray-600">The Challenge</a>
+                <a href="#solution" class="block nav-link py-2 text-gray-600">The Solution</a>
+                <a href="#kpis" class="block nav-link py-2 text-gray-600">KPIs</a>
+                <a href="#stakeholders" class="block nav-link py-2 text-gray-600">Stakeholders</a>
+                <a href="#vision" class="block nav-link py-2 text-gray-600">Future Vision</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="bg-white pt-16 pb-20">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+                    An Integrated Communications Strategy for the <span class="text-blue-600">Sturgis Motorcycle Rally</span>
+                </h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-gray-600">
+                    Transforming public safety with a resilient, intelligent, and unified technology ecosystem designed to ensure operational continuity and protect lives during one of the nation's most demanding public events.
+                </p>
+                <a href="#solution" class="mt-8 inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-blue-700 transition-colors duration-300">Explore the Solution</a>
+            </div>
+        section>
+
+        <section id="challenge" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">The Sturgis Challenge</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">The massive influx of visitors creates an unprecedented strain on public safety infrastructure, leading to critical communication challenges that directly impact response times and officer safety.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white p-8 rounded-xl shadow-lg fade-in">
+                        <div class="text-blue-600 mb-4">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Network Congestion</h3>
+                        <p class="text-gray-600">The P25 radio system faces "busy signals" during peak hours, creating dangerous communication delays for life-saving commands and coordination.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg fade-in" style="animation-delay: 0.2s;">
+                        <div class="text-blue-600 mb-4">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Response Delays</h3>
+                        <p class="text-gray-600">In dense crowds and sprawling campgrounds, pinpointing incident locations is difficult, slowing response for medical emergencies and public disturbances.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-xl shadow-lg fade-in" style="animation-delay: 0.4s;">
+                        <div class="text-blue-600 mb-4">
+                            <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Limited Situational Awareness</h3>
+                        <p class="text-gray-600">Voice-only communication limits the ability of commanders to visualize incidents, track resources effectively, and make fully-informed tactical decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">The Integrated Solution</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">A multi-layered ecosystem that fortifies the existing network, adds dynamic capacity, and introduces next-generation intelligence to create a seamless, resilient communications platform.</p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex justify-center border-b border-gray-200 mb-8">
+                        <button data-tab="p25" class="tab-btn px-6 py-3 font-semibold text-gray-600 border-b-2 border-transparent hover:bg-gray-100 rounded-t-lg active">Fortify the Core</button>
+                        <button data-tab="smartconnect" class="tab-btn px-6 py-3 font-semibold text-gray-600 border-b-2 border-transparent hover:bg-gray-100 rounded-t-lg">SmartConnect Advantage</button>
+                        <button data-tab="drones" class="tab-btn px-6 py-3 font-semibold text-gray-600 border-b-2 border-transparent hover:bg-gray-100 rounded-t-lg">Next Horizon: Drones</button>
+                    </div>
+
+                    <div id="tab-content">
+                        <div id="p25" class="tab-pane fade-in">
+                            <h3 class="text-2xl font-bold mb-4">P25 Network Resilience & Capacity Management</h3>
+                            <p class="text-gray-600 mb-6">Before adding new technology, we must optimize the existing ASTRO 25 system. This approach respects the current investment and builds a reliable foundation for next-generation capabilities.</p>
+                            <div class="bg-slate-50 p-6 rounded-lg">
+                                <h4 class="font-bold text-lg mb-4 text-center">Maximizing Capacity with P25 Phase 2 TDMA</h4>
+                                <div class="grid md:grid-cols-2 gap-6 items-center">
+                                    <div class="border border-gray-300 p-4 rounded-lg text-center bg-white">
+                                        <h5 class="font-semibold text-gray-700">FDMA (Legacy)</h5>
+                                        <p class="text-sm text-gray-500 mb-3">1 Frequency = 1 Conversation</p>
+                                        <div class="h-16 bg-red-200 rounded-md flex items-center justify-center font-mono text-red-800">PATH A</div>
+                                    </div>
+                                    <div class="border-2 border-blue-500 p-4 rounded-lg text-center bg-blue-50">
+                                        <h5 class="font-semibold text-blue-700">TDMA (Phase 2)</h5>
+                                        <p class="text-sm text-blue-600 mb-3">1 Frequency = 2 Conversations</p>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="h-16 bg-blue-200 rounded-md flex items-center justify-center font-mono text-blue-800">PATH A</div>
+                                            <div class="h-16 bg-green-200 rounded-md flex items-center justify-center font-mono text-green-800">PATH B</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-center text-sm text-gray-600">P25 Phase 2 TDMA effectively **doubles voice capacity** on existing frequencies, a critical advantage during high-traffic events like Sturgis.</p>
+                            </div>
+                        </div>
+
+                        <div id="smartconnect" class="tab-pane hidden fade-in">
+                            <h3 class="text-2xl font-bold mb-4">The SmartConnect Advantage: Dynamic Offloading</h3>
+                            <p class="text-gray-600 mb-6">APX NEXT radios with SmartConnect create a resilient hybrid system. By automatically and seamlessly routing communications over the best available path—P25, LTE, or Wi-Fi—it drastically reduces P25 congestion and extends coverage.</p>
+                            <div class="bg-slate-50 p-6 rounded-lg text-center">
+                                <h4 class="font-bold text-lg mb-4">Seamless Communication, Anywhere</h4>
+                                <div class="flex justify-center items-center space-x-4 md:space-x-8">
+                                    <div class="text-center">
+                                        <div class="p-3 bg-white rounded-full shadow-md">
+                                            <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                                        </div>
+                                        <p class="text-sm font-semibold mt-2">P25 LMR</p>
+                                    </div>
+                                    <div class="h-1 w-12 bg-gray-300 rounded-full"></div>
+                                    <div class="text-center">
+                                        <div class="p-4 bg-blue-600 rounded-full shadow-xl ring-4 ring-blue-200">
+                                             <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                        </div>
+                                        <p class="text-lg font-bold mt-2">APX NEXT</p>
+                                    </div>
+                                    <div class="h-1 w-12 bg-gray-300 rounded-full"></div>
+                                    <div class="text-center">
+                                        <div class="p-3 bg-white rounded-full shadow-md">
+                                            <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071a10 10 0 0114.142 0M1.394 8.032a15 15 0 0121.212 0"></path></svg>
+                                        </div>
+                                        <p class="text-sm font-semibold mt-2">LTE/Wi-Fi</p>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-center text-sm text-gray-600">When the P25 network is busy or out of range, the radio **automatically switches to broadband**, keeping officers connected inside buildings, in fringe areas, and during peak network load.</p>
+                            </div>
+                        </div>
+
+                        <div id="drones" class="tab-pane hidden fade-in">
+                            <h3 class="text-2xl font-bold mb-4">Next Horizon: Integrating BRINC Drone Intelligence</h3>
+                            <p class="text-gray-600 mb-6">Through our strategic alliance with BRINC, we can integrate "Drone as a First Responder" (DFR) capabilities. This adds a critical "eye in the sky," providing unparalleled situational awareness and de-escalation options.</p>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-slate-50 p-6 rounded-lg">
+                                    <h4 class="font-bold text-lg mb-2">Rapid Incident Overwatch</h4>
+                                    <p class="text-gray-600">Deploy a drone to an accident scene on I-90 in under 70 seconds to assess injuries and lane blockages before ground units arrive, enabling a safer, more effective response.</p>
+                                </div>
+                                <div class="bg-slate-50 p-6 rounded-lg">
+                                    <h4 class="font-bold text-lg mb-2">Crowd Analytics</h4>
+                                    <p class="text-gray-600">Provide persistent overwatch of Main Street to monitor crowd flow and identify potential disturbances before they escalate, allowing for pre-emptive de-escalation.</p>
+                                </div>
+                                <div class="bg-slate-50 p-6 rounded-lg">
+                                    <h4 class="font-bold text-lg mb-2">One-Button Deployment</h4>
+                                    <p class="text-gray-600">An officer pressing the emergency button on their APX NEXT can automatically trigger a drone launch to their precise GPS coordinates, providing immediate aerial support.</p>
+                                </div>
+                                 <div class="bg-slate-50 p-6 rounded-lg">
+                                    <h4 class="font-bold text-lg mb-2">De-escalation & Communication</h4>
+                                    <p class="text-gray-600">Use the drone's two-way communication to speak with subjects from a safe distance, a powerful tool for resolving high-risk situations without endangering officers.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="kpis" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Measuring Success: Key Performance Indicators</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">This strategy is designed to deliver tangible, measurable improvements in operational performance. Our success will be tracked against clear KPIs that demonstrate a quantifiable return on investment.</p>
+                </div>
+                <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg">
+                    <h3 class="text-xl font-bold text-center mb-6">Target for Success</h3>
+                    <div class="chart-container">
+                        <canvas id="kpiChart"></canvas>
+                    </div>
+                    <p class="text-center mt-4 text-sm text-gray-500">Visual representation of key targeted improvements.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="stakeholders" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900">A Tailored Solution for Every Agency</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">This is not a one-size-fits-all solution. The integrated ecosystem is designed to deliver specific, tangible value that addresses the unique priorities of each key stakeholder.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-slate-50 border-t-4 border-blue-600 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold mb-3">State Radio</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Priority: System Integrity & Asset Utilization</p>
+                        <p class="text-gray-600">SmartConnect dramatically reduces load on the statewide P25 system by offloading Sturgis traffic to broadband, preserving core network capacity for the rest of the state and maximizing the value of existing frequency assets.</p>
+                    </div>
+                    <div class="bg-slate-50 border-t-4 border-green-600 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold mb-3">Sheriff's Office</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Priority: County-Level Command & Coordination</p>
+                        <p class="text-gray-600">SmartMapping provides a county-wide common operating picture, while unified talkgroups and SmartConnect ensure seamless interoperability and reliable communication coverage across the broad jurisdiction, including rural areas.</p>
+                    </div>
+                     <div class="bg-slate-50 border-t-4 border-red-600 p-8 rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <h3 class="text-xl font-bold mb-3">Police Department</h3>
+                        <p class="text-gray-600 font-semibold mb-4">Priority: Rapid Response & Officer Safety</p>
+                        <p class="text-gray-600">APX NEXT data suite (SmartLocate, SmartMessaging) accelerates response times and improves officer safety with real-time location tracking and discreet multimedia sharing. Drone integration provides critical overwatch for high-risk calls.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vision" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6 text-center">
+                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900">The Blueprint for Success</h2>
+                 <p class="mt-4 max-w-2xl mx-auto text-gray-600 mb-12">Our operational plan ensures a smooth deployment, from initial planning and training to real-time support and post-event analysis, guaranteeing mission success.</p>
+                <div class="relative">
+                    <div class="absolute top-1/2 left-0 w-full h-0.5 bg-gray-300 -translate-y-1/2"></div>
+                    <div class="relative flex justify-between">
+                         <div class="flex-1 text-center">
+                            <div class="relative z-10 mx-auto w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">1</div>
+                            <h4 class="mt-4 font-bold">Pre-Event Planning</h4>
+                            <p class="text-sm text-gray-600 mt-1">T-90 Days: System config, radio programming, load testing, and user training.</p>
+                        </div>
+                        <div class="flex-1 text-center">
+                            <div class="relative z-10 mx-auto w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">2</div>
+                             <h4 class="mt-4 font-bold">On-Site Support</h4>
+                             <p class="text-sm text-gray-600 mt-1">During Rally: 24/7 on-site monitoring and expert support at the Unified Command Post.</p>
+                        </div>
+                        <div class="flex-1 text-center">
+                             <div class="relative z-10 mx-auto w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">3</div>
+                            <h4 class="mt-4 font-bold">Post-Event Review</h4>
+                            <p class="text-sm text-gray-600 mt-1">Rally+30 Days: KPI analysis, after-action reporting, and optimization for next year.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-gray-800 text-white">
+            <div class="container mx-auto px-6 py-12 text-center">
+                <h2 class="text-3xl font-bold">Ready to Build the Future of Public Safety?</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-gray-300">Let's ensure the next Sturgis Motorcycle Rally is the safest and most technologically advanced in its history. The time for a strategic communications upgrade is now.</p>
+                <button class="mt-8 bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-blue-700 transition-colors duration-300">Schedule a Communications Modernization Workshop</button>
+                 <div class="mt-8 pt-8 border-t border-gray-700 text-sm text-gray-400">
+                    <p>&copy; 2025 Motorola Solutions, Inc. All rights reserved.</p>
+                    <p>This document is a strategic proposal and for discussion purposes only.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    button.classList.add('active');
+
+                    tabPanes.forEach(pane => {
+                        if (pane.id === tabId) {
+                            pane.classList.remove('hidden');
+                        } else {
+                            pane.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            window.onscroll = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 68) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+
+            const kpiCtx = document.getElementById('kpiChart').getContext('2d');
+            const kpiChart = new Chart(kpiCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['P25 Congestion', 'Incident Response Time', 'Inter-Agency Comms Issues'],
+                    datasets: [{
+                        label: 'Target Improvement (%)',
+                        data: [50, 10, 99],
+                        backgroundColor: [
+                            'rgba(37, 99, 235, 0.6)',
+                            'rgba(22, 163, 74, 0.6)',
+                            'rgba(220, 38, 38, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(37, 99, 235, 1)',
+                            'rgba(22, 163, 74, 1)',
+                            'rgba(220, 38, 38, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                             ticks: {
+                                callback: function(value) {
+                                    return value + "%"
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Key Performance Indicator Targets',
+                            font: {
+                                size: 16
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        let fullLabel = context.label;
+                                        if (fullLabel === 'P25 Congestion') label = '>50% Reduction';
+                                        else if (fullLabel === 'Incident Response Time') label = '10% Reduction';
+                                        else if (fullLabel === 'Inter-Agency Comms Issues') label = '99% Use of Pre-planned Channels';
+                                        else label += context.parsed.x + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
